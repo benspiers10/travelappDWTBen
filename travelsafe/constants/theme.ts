@@ -5,27 +5,41 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+const primaryGreen = '#2e7d32';
+const lightGreen = '#66bb6a';
+const cream = '#f1f5e9';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: '#0b1f1a',
+    textSecondary: '#4b6b5a',
+    background: '#f1f5e9',
+    tint: primaryGreen,
+    icon: '#4b6b5a',
+    tabIconDefault: '#4b6b5a',
+    tabIconSelected: primaryGreen,
+    card: '#e6f0e9',
+    border: '#c8d5c0',
+    buttonPrimary: primaryGreen,
+    buttonSecondary: '#6b8f71',
+    buttonText: '#f1f5e9',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: cream,
+    textSecondary: '#c8d5c0',
+    background: '#0b1f1a',
+    tint: lightGreen,
+    icon: '#9fb7aa',
+    tabIconDefault: '#9fb7aa',
+    tabIconSelected: lightGreen,
+    card: '#132f2a',
+    border: '#1f3d36',
+    buttonPrimary: '#2e7d32',
+    buttonSecondary: '#355e4b',
+    buttonText: '#f1f5e9',
   },
 };
+
 
 export const Fonts = Platform.select({
   ios: {
