@@ -2,29 +2,31 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Solo Traveller Tracker</Text>
+        <Text style={styles.title}>Profile</Text>
         <Text style={styles.subtitle}>
-          Welcome back. This will become your main dashboard.
+          This is a placeholder page for now.
         </Text>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Travel Status</Text>
-          <Text style={styles.cardText}>No active trip</Text>
+          <Text style={styles.cardTitle}>User Details</Text>
+          <Text style={styles.cardText}>Profile information will go here.</Text>
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Last Known Update</Text>
-          <Text style={styles.cardText}>No location updates yet</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Next Step</Text>
+          <Text style={styles.cardTitle}>Emergency Contact</Text>
           <Text style={styles.cardText}>
-            Add start travel and stop travel actions on the Track page.
+            Contact details can be added later.
+          </Text>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>App Settings</Text>
+          <Text style={styles.cardText}>
+            Tracking interval and preferences will go here.
           </Text>
         </View>
       </View>

@@ -2,29 +2,24 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default function HomeScreen() {
+export default function TripsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Solo Traveller Tracker</Text>
+        <Text style={styles.title}>Trips</Text>
         <Text style={styles.subtitle}>
-          Welcome back. This will become your main dashboard.
+          Previous journeys will be shown here later.
         </Text>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Travel Status</Text>
-          <Text style={styles.cardText}>No active trip</Text>
+          <Text style={styles.cardTitle}>Trip History</Text>
+          <Text style={styles.cardText}>No trips recorded yet</Text>
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Last Known Update</Text>
-          <Text style={styles.cardText}>No location updates yet</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Next Step</Text>
+          <Text style={styles.cardTitle}>Future Features</Text>
           <Text style={styles.cardText}>
-            Add start travel and stop travel actions on the Track page.
+            Start time, end time, start photo, end photo, and trip status.
           </Text>
         </View>
       </View>
