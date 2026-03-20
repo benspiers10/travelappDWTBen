@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "travelsafe",
-    "slug": "travelsafe",
+    "name": "travelbuddy",
+    "slug": "travelbuddy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "travelsafe",
+    "scheme": "travelbuddy",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

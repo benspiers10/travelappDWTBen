@@ -8,8 +8,10 @@ export default function HomeScreen() {
   const colors = Colors[colorScheme];
 
   return (
+    // This is a placeholder screen for the Home tab. It will be updated with real data and functionality in future iterations.
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
+        {/* Placeholder content for the Home tab */}
         <Text style={[styles.title, { color: colors.text }]}>Solo Traveller Tracker</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Welcome back. This will become your main dashboard.
