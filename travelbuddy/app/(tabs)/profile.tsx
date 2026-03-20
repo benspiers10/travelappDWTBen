@@ -43,7 +43,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { flex: 1, padding: 20 },
-  title: { fontSize: 28, fontWeight: '700', marginBottom: 8 },
+  title: { fontSize: 28, fontWeight: '700' },
   subtitle: { fontSize: 15, marginBottom: 24, lineHeight: 22 },
   card: {
     borderRadius: 16,
