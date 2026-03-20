@@ -1,0 +1,12 @@
+export type Trip = {
+  id: string;
+  startPhoto: string | null;
+  endPhoto: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  startLatitude: number | null;
+  startLongitude: number | null;
+  endLatitude: number | null;
+  endLongitude: number | null;
+  status: 'completed';
+};
