@@ -12,29 +12,28 @@ export default function ProfileScreen() {
       <View style={styles.content}>
         <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          This is a placeholder page for now.
+          Hello, Welcome to your profile! {/*This will be have the users name once added*/}
         </Text>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <Text style={[styles.cardTitle, { color: colors.text }]}>User Details</Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            Profile information will go here.
+            Profile information
+            {/* Profile details here, like name, email, profile image, countries visited */}
           </Text>
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <Text style={[styles.cardTitle, { color: colors.text }]}>Emergency Contact</Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            Contact details can be added later.
+            Name: John Doe 
+            Phone: +123456789 
+            additional contact details here
+              {/* Emergency contact details here */}
+            
           </Text>
         </View>
 
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>App Settings</Text>
-          <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            Tracking interval and preferences will go here.
-          </Text>
-        </View>
       </View>
     </SafeAreaView>
   );

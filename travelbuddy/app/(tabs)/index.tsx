@@ -18,8 +18,8 @@ export default function HomeScreen() {
         </Text>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Travel Status</Text>
-          <Text style={[styles.cardText, { color: colors.textSecondary }]}>No active trip</Text>
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Last Trip</Text>
+          <Text style={[styles.cardText, { color: colors.textSecondary }]}>Link to last trip details</Text>
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -27,12 +27,6 @@ export default function HomeScreen() {
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>No location updates yet</Text>
         </View>
 
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Next Step</Text>
-          <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            Add start travel and stop travel actions on the Track page.
-          </Text>
-        </View>
       </View>
     </SafeAreaView>
   );
