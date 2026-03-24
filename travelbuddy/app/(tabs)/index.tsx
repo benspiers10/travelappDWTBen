@@ -23,7 +23,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Last Known Update</Text>
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Last Known Update of current location</Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>No location updates yet</Text>
         </View>
 
