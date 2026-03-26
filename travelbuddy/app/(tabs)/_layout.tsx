@@ -1,7 +1,7 @@
-import { Tabs } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from '@/constants/theme'; // adjust path if needed
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Tabs } from "expo-router";
 
 
 export default function TabsLayout() {
@@ -11,10 +11,9 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: {
-          backgroundColor: Colors[colorScheme].background,
-        },
-        headerTintColor: Colors[colorScheme].text,
+       headerShown: false,
+        //   { backgroundColor: Colors[colorScheme].background,
+        // headerTintColor: Colors[colorScheme].text},
 
         tabBarStyle: {
           backgroundColor: Colors[colorScheme].card,

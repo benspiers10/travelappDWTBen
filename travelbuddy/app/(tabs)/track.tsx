@@ -1,3 +1,6 @@
+import { sendTripToServer } from '@/services/tripsApi';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
 import { useState } from 'react';
 import {
   Alert,
@@ -9,9 +12,6 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as ImagePicker from 'expo-image-picker';
-import * as Location from 'expo-location';
-import { sendTripToServer } from '@/services/tripsApi';
 
 import { useTrips } from '@/context/TripsContext';
 import { Trip } from '@/types/trip';
@@ -61,6 +61,26 @@ export default function TrackScreen() {
     });
 
     return location;
+  };
+
+  // Convert coordinates into a more human-readable location name.
+  const getCityName = async (latitude: number, longitude: number) => {
+    try {
+      const results = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      if (results.length > 0) {
+        const place = results[0];
+        return place.city || place.region || place.subregion || 'Unknown area';
+      }
+
+      return 'Unknown area';
+    } catch (error) {
+      console.error('Failed to reverse geocode location:', error);
+      return 'Unknown area';
+    }
   };
 
   // Start a journey by taking a photo and recording location/time.
@@ -148,6 +168,16 @@ export default function TrackScreen() {
     const photoUri = result.assets[0].uri;
     const completedEndTime = new Date().toLocaleString();
 
+    const startCityName =
+      startLatitude !== null && startLongitude !== null
+        ? await getCityName(startLatitude, startLongitude)
+        : 'Unknown area';
+
+    const endCityName = await getCityName(
+      location.coords.latitude,
+      location.coords.longitude
+    );
+
     // Build the completed trip object.
     const completedTrip: Trip = {
       id: Date.now().toString(),
@@ -159,6 +189,8 @@ export default function TrackScreen() {
       startLongitude,
       endLatitude: location.coords.latitude,
       endLongitude: location.coords.longitude,
+      startCity: startCityName,
+      endCity: endCityName,
       status: 'completed',
     };
 

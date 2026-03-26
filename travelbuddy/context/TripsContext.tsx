@@ -1,10 +1,11 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Trip } from '@/types/trip';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 type TripsContextType = {
   trips: Trip[];
   addTrip: (trip: Trip) => void;
+  deleteTrip: (tripId: string) => void;
 };
 
 const TripsContext = createContext<TripsContextType | undefined>(undefined);
@@ -21,9 +22,6 @@ export function TripsProvider({ children }: TripsProviderProps) {
     const loadTrips = async () => {
       try {
         const storedTrips = await AsyncStorage.getItem('trips');
-
-        console.log('Loading trips from AsyncStorage...');
-        console.log('Stored trips raw value:', storedTrips);
 
         if (storedTrips) {
           setTrips(JSON.parse(storedTrips));
@@ -43,9 +41,6 @@ export function TripsProvider({ children }: TripsProviderProps) {
 
     const saveTrips = async () => {
       try {
-        console.log('Saving trips to AsyncStorage...');
-        console.log('Trips to save:', trips);
-
         await AsyncStorage.setItem('trips', JSON.stringify(trips));
       } catch (error) {
         console.error('Failed to save trips:', error);
@@ -59,8 +54,12 @@ export function TripsProvider({ children }: TripsProviderProps) {
     setTrips((currentTrips) => [trip, ...currentTrips]);
   };
 
+  const deleteTrip = (tripId: string) => {
+    setTrips((currentTrips) => currentTrips.filter((trip) => trip.id !== tripId));
+  };
+
   return (
-    <TripsContext.Provider value={{ trips, addTrip }}>
+    <TripsContext.Provider value={{ trips, addTrip, deleteTrip }}>
       {children}
     </TripsContext.Provider>
   );

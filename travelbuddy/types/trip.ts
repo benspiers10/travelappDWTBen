@@ -8,5 +8,7 @@ export type Trip = {
   startLongitude: number | null;
   endLatitude: number | null;
   endLongitude: number | null;
+  startCity?: string | null;
+  endCity?: string | null;
   status: 'completed';
 };
