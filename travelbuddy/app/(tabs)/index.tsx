@@ -14,11 +14,11 @@ export default function HomeScreen() {
         {/* Placeholder content for the Home tab */}
         <Text style={[styles.title, { color: colors.text }]}>Solo Traveller Tracker</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          Welcome to the Solo Traveller Tracker! This app helps you keep track of your travels, share your location with loved ones, and stay safe on your adventures. Use the tabs below to navigate through the app and explore its features.
+          Hello! Use the tabs below to navigate through the app and explore its features. Happy travels!
         </Text>
 
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Last Trip</Text>
+            <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+              <Text style={[styles.cardTitle, { color: colors.text }]}>Last Trip</Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>Link to last trip details</Text>
         </View>
 
