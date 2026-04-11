@@ -1,21 +1,71 @@
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import {
+  Alert,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '@/constants/theme';
+import { useAppTheme } from '@/context/ThemeContext';
 import { useTrips } from '@/context/TripsContext';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TripsScreen() {
-  const colorScheme = useColorScheme() ?? 'dark';
-  const colors = Colors[colorScheme];
+  // Get the current colour scheme and matching colours.
+   const { theme } = useAppTheme();
+   const colors = Colors[theme];
 
-  const { trips, deleteTrip } = useTrips();
+  // Read trips and available actions from shared context.
+  const { trips, deleteTrip, updateTrip } = useTrips();
 
+  // Store whether the edit modal is open.
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+
+  // Store the id of the trip being edited.
+  const [selectedTripId, setSelectedTripId] = useState<string | null>(null);
+
+  // Store the new title typed by the user.
+  const [editedTitle, setEditedTitle] = useState('');
+
+  // Format coordinates so they are shorter and easier to read.
   const formatCoordinate = (value: number | null) => {
     if (value === null) return 'No data';
     return value.toFixed(4);
   };
 
+  // Open the edit modal and preload the current title if it exists.
+  const handleOpenEditModal = (tripId: string, currentTitle?: string) => {
+    setSelectedTripId(tripId);
+    setEditedTitle(currentTitle ?? '');
+    setIsEditModalVisible(true);
+  };
+
+  // Save the new trip title.
+  const handleSaveEdit = () => {
+    if (!selectedTripId) return;
+
+    // Prevent an empty title from being saved.
+    if (editedTitle.trim().length === 0) {
+      Alert.alert('Invalid title', 'Please enter a trip title before saving.');
+      return;
+    }
+
+    // Update the selected trip in shared state.
+    updateTrip(selectedTripId, { title: editedTitle.trim() });
+
+    // Close the modal and clear temporary edit state.
+    setIsEditModalVisible(false);
+    setSelectedTripId(null);
+    setEditedTitle('');
+  };
+
+  // Delete a trip after confirmation.
   const handleDeleteTrip = (tripId: string) => {
     Alert.alert(
       'Delete trip',
@@ -28,13 +78,6 @@ export default function TripsScreen() {
           onPress: () => deleteTrip(tripId),
         },
       ]
-    );
-  };
-
-  const handleEditTrip = () => {
-    Alert.alert(
-      'Edit trip',
-      'Editing can be added next. For now this button is a placeholder.'
     );
   };
 
@@ -70,14 +113,15 @@ export default function TripsScreen() {
               ]}
             >
               <View style={styles.headerRow}>
+                {/* Show a custom title if the user has edited the trip name */}
                 <Text style={[styles.cardTitle, { color: colors.text }]}>
-                  Trip {trips.length - index}
+                  {trip.title ? trip.title : `Trip ${trips.length - index}`}
                 </Text>
 
                 <View style={styles.buttonGroup}>
                   <Pressable
                     style={[styles.smallButton, { backgroundColor: colors.buttonSecondary }]}
-                    onPress={handleEditTrip}
+                    onPress={() => handleOpenEditModal(trip.id, trip.title)}
                   >
                     <Text style={[styles.smallButtonText, { color: colors.buttonText }]}>
                       Edit
@@ -85,12 +129,10 @@ export default function TripsScreen() {
                   </Pressable>
 
                   <Pressable
-                    style={[styles.smallButton, { backgroundColor: '#9b2c2c' }]}
+                    style={[styles.smallButton, styles.deleteButton]}
                     onPress={() => handleDeleteTrip(trip.id)}
                   >
-                    <Text style={[styles.smallButtonText, { color: '#ffffff' }]}>
-                      Delete
-                    </Text>
+                    <Text style={styles.deleteButtonText}>Delete</Text>
                   </Pressable>
                 </View>
               </View>
@@ -176,6 +218,67 @@ export default function TripsScreen() {
           ))
         )}
       </ScrollView>
+
+      {/* Modal used to edit the title of a saved trip */}
+      <Modal
+        visible={isEditModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsEditModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View
+            style={[
+              styles.modalCard,
+              { backgroundColor: colors.card, borderColor: colors.border },
+            ]}
+          >
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Edit Trip Title</Text>
+            <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
+              Enter a new name for this trip.
+            </Text>
+
+            <TextInput
+              value={editedTitle}
+              onChangeText={setEditedTitle}
+              placeholder="e.g. Weekend in Manchester"
+              placeholderTextColor={colors.textSecondary}
+              style={[
+                styles.input,
+                {
+                  color: colors.text,
+                  borderColor: colors.border,
+                  backgroundColor: colors.background,
+                },
+              ]}
+            />
+
+            <View style={styles.modalButtonRow}>
+              <Pressable
+                style={[styles.modalButton, { backgroundColor: colors.buttonSecondary }]}
+                onPress={() => {
+                  setIsEditModalVisible(false);
+                  setSelectedTripId(null);
+                  setEditedTitle('');
+                }}
+              >
+                <Text style={[styles.smallButtonText, { color: colors.buttonText }]}>
+                  Cancel
+                </Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.modalButton, { backgroundColor: colors.buttonPrimary }]}
+                onPress={handleSaveEdit}
+              >
+                <Text style={[styles.smallButtonText, { color: colors.buttonText }]}>
+                  Save
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -209,6 +312,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: 12,
+    marginBottom: 12,
   },
   cardTitle: {
     fontSize: 18,
@@ -249,6 +353,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
   },
+  deleteButton: {
+    backgroundColor: '#9b2c2c',
+  },
+  deleteButtonText: {
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: '600',
+  },
   photoRow: {
     flexDirection: 'row',
     gap: 12,
@@ -272,5 +384,44 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     fontSize: 13,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+  },
+  modalCard: {
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
+    marginBottom: 16,
+  },
+  modalButtonRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
   },
 });

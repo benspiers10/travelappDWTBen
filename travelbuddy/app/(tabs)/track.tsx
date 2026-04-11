@@ -17,12 +17,12 @@ import { useTrips } from '@/context/TripsContext';
 import { Trip } from '@/types/trip';
 
 import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAppTheme } from '@/context/ThemeContext';
 
 export default function TrackScreen() {
   // Get the current colour scheme and matching colours.
-  const colorScheme = useColorScheme() ?? 'dark';
-  const colors = Colors[colorScheme];
+    const { theme } = useAppTheme();
+    const colors = Colors[theme];
 
   // Store the travel photos.
   const [startPhoto, setStartPhoto] = useState<string | null>(null);
@@ -208,11 +208,22 @@ export default function TrackScreen() {
       );
     }
 
-    // Update UI state.
+    // Update UI state so the completed trip is briefly visible.
     setEndPhoto(photoUri);
     setEndTime(completedEndTime);
     setEndLatitude(location.coords.latitude);
     setEndLongitude(location.coords.longitude);
+    setIsTravelling(false);
+
+    // Reset the screen after saving so the user can begin a new trip.
+    setStartPhoto(null);
+    setEndPhoto(null);
+    setStartTime(null);
+    setEndTime(null);
+    setStartLatitude(null);
+    setStartLongitude(null);
+    setEndLatitude(null);
+    setEndLongitude(null);
     setIsTravelling(false);
   };
 
@@ -235,31 +246,33 @@ export default function TrackScreen() {
 
         {/* Action buttons placed near the top so they are easy to reach */}
         <View style={styles.buttonRow}>
-          <Pressable
-            style={[
-              styles.actionButton,
-              styles.primaryButton,
-              { backgroundColor: colors.buttonPrimary },
-            ]}
-            onPress={handleStartTravel}
-          >
-            <Text style={[styles.buttonText, { color: colors.buttonText }]}>
-              Start Travel
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={[
-              styles.actionButton,
-              styles.secondaryButton,
-              { backgroundColor: colors.buttonSecondary },
-            ]}
-            onPress={handleStopTravel}
-          >
-            <Text style={[styles.buttonText, { color: colors.buttonText }]}>
-              Stop Travel
-            </Text>
-          </Pressable>
+          {!isTravelling ? (
+            <Pressable
+              style={[
+                styles.actionButton,
+                styles.primaryButton,
+                { backgroundColor: colors.buttonPrimary },
+              ]}
+              onPress={handleStartTravel}
+            >
+              <Text style={[styles.buttonText, { color: colors.buttonText }]}>
+                Start Travel
+              </Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={[
+                styles.actionButton,
+                styles.secondaryButton,
+                { backgroundColor: colors.buttonSecondary },
+              ]}
+              onPress={handleStopTravel}
+            >
+              <Text style={[styles.buttonText, { color: colors.buttonText }]}>
+                Stop Travel
+              </Text>
+            </Pressable>
+          )}
         </View>
 
         {/* Simple status card */}
@@ -271,7 +284,7 @@ export default function TrackScreen() {
         >
           <Text style={[styles.cardTitle, { color: colors.text }]}>Journey Status</Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            {isTravelling ? 'Currently travelling' : 'Not currently travelling'}
+            {isTravelling ? 'Journey in progress' : 'Ready to start a new journey'}
           </Text>
         </View>
 
