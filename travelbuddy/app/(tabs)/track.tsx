@@ -24,21 +24,17 @@ export default function TrackScreen() {
     const { theme } = useAppTheme();
     const colors = Colors[theme];
 
-  // Store the travel photos.
+
   const [startPhoto, setStartPhoto] = useState<string | null>(null);
   const [endPhoto, setEndPhoto] = useState<string | null>(null);
 
-  // Store whether the user is currently travelling.
   const [isTravelling, setIsTravelling] = useState(false);
-
-  // Access shared trip storage.
+  
   const { addTrip } = useTrips();
 
-  // Store the start and end timestamps.
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
 
-  // Store the start and end coordinates.
   const [startLatitude, setStartLatitude] = useState<number | null>(null);
   const [startLongitude, setStartLongitude] = useState<number | null>(null);
   const [endLatitude, setEndLatitude] = useState<number | null>(null);
@@ -200,20 +196,13 @@ export default function TrackScreen() {
     // Then try to send to the server.
     try {
       await sendTripToServer(completedTrip);
-      Alert.alert('Trip saved', 'Trip saved and sent to server.');
+      Alert.alert('Trip saved successfully');
     } catch (error) {
       Alert.alert(
         'Server failed',
         'Trip saved locally, but failed to send to server.'
       );
     }
-
-    // Update UI state so the completed trip is briefly visible.
-    setEndPhoto(photoUri);
-    setEndTime(completedEndTime);
-    setEndLatitude(location.coords.latitude);
-    setEndLongitude(location.coords.longitude);
-    setIsTravelling(false);
 
     // Reset the screen after saving so the user can begin a new trip.
     setStartPhoto(null);

@@ -33,7 +33,6 @@ export function TripsProvider({ children }: TripsProviderProps) {
     const loadTrips = async () => {
       try {
         const storedTrips = await AsyncStorage.getItem('trips');
-
         if (storedTrips) {
           setTrips(JSON.parse(storedTrips));
         }

@@ -21,18 +21,15 @@ export default function TripsScreen() {
    const { theme } = useAppTheme();
    const colors = Colors[theme];
 
-  // Read trips and available actions from shared context.
+
   const { trips, deleteTrip, updateTrip } = useTrips();
 
   // Store whether the edit modal is open.
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-
   // Store the id of the trip being edited.
   const [selectedTripId, setSelectedTripId] = useState<string | null>(null);
-
   // Store the new title typed by the user.
   const [editedTitle, setEditedTitle] = useState('');
-
   // Format coordinates so they are shorter and easier to read.
   const formatCoordinate = (value: number | null) => {
     if (value === null) return 'No data';
