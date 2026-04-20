@@ -42,23 +42,35 @@ export default function TrackScreen() {
 
   // Ask for location permission and return the current location.
   const getCurrentLocation = async () => {
+  try {
+    console.log('Requesting location permission...');
+
     const permissionResult = await Location.requestForegroundPermissionsAsync();
+    console.log('Permission status:', permissionResult.status);
 
     if (permissionResult.status !== 'granted') {
       Alert.alert(
         'Location permission needed',
-        'You must allow location access to record your travel position.'
+        'Please enable location access in your phone settings.'
       );
       return null;
     }
 
+    console.log('Getting location...');
+
     const location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.High,
+      accuracy: Location.Accuracy.Balanced, // faster + more reliable
     });
 
+    console.log('Location received:', location.coords);
     return location;
-  };
 
+  } catch (error) {
+    console.error('Location error:', error);
+    Alert.alert('Location Error', 'Unable to get your location.');
+    return null;
+  }
+};
   // Convert coordinates into a more human-readable location name.
   const getCityName = async (latitude: number, longitude: number) => {
     try {
