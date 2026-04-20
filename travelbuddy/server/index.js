@@ -15,13 +15,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// // route test to make sure working
-// app.get('/', (req, res) => {
-//   console.log('Root route was accessed.');
-//   res.json({
-//     message: 'TravelBuddy server is running',
-//   });
-// });
+// route test to make sure working
+app.get('/', (req, res) => {
+  console.log('Root route was accessed.');
+  res.json({
+    message: 'TravelBuddy server is running',
+  });
+});
 
 // Receive and store a completed trip.
 app.post('/trips', (req, res) => {

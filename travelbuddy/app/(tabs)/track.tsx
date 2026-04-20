@@ -21,15 +21,15 @@ import { useAppTheme } from '@/context/ThemeContext';
 
 export default function TrackScreen() {
   // Get the current colour scheme and matching colours.
-    const { theme } = useAppTheme();
-    const colors = Colors[theme];
+  const { theme } = useAppTheme();
+  const colors = Colors[theme];
 
 
   const [startPhoto, setStartPhoto] = useState<string | null>(null);
   const [endPhoto, setEndPhoto] = useState<string | null>(null);
 
   const [isTravelling, setIsTravelling] = useState(false);
-  
+
   const { addTrip } = useTrips();
 
   const [startTime, setStartTime] = useState<string | null>(null);
@@ -113,7 +113,6 @@ export default function TrackScreen() {
     // Save start-trip data.
     setStartPhoto(photoUri);
     setStartTime(new Date().toLocaleString());
-
     setStartLatitude(location.coords.latitude);
     setStartLongitude(location.coords.longitude);
 
@@ -146,9 +145,8 @@ export default function TrackScreen() {
 
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0.7,
+      allowsEditing: false,
+      quality: 0.4,
     });
 
     if (result.canceled) {
@@ -196,13 +194,18 @@ export default function TrackScreen() {
     // Then try to send to the server.
     try {
       await sendTripToServer(completedTrip);
-      Alert.alert('Trip saved successfully');
+      Alert.alert('Trip saved', 'Trip saved locally and sent to server.');
     } catch (error) {
-      Alert.alert(
-        'Server failed',
-        'Trip saved locally, but failed to send to server.'
-      );
+      console.error('Server upload failed:', error);
+      Alert.alert('Trip saved', 'Trip saved locally. Server sync unavailable.');
     }
+
+      // Update UI state so the completed trip is briefly visible.
+      setEndPhoto(photoUri);
+      setEndTime(completedEndTime);
+      setEndLatitude(location.coords.latitude);
+      setEndLongitude(location.coords.longitude);
+      setIsTravelling(false);
 
     // Reset the screen after saving so the user can begin a new trip.
     setStartPhoto(null);
