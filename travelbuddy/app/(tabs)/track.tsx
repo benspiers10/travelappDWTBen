@@ -43,7 +43,7 @@ export default function TrackScreen() {
   // Ask for location permission and return the current location.
   const getCurrentLocation = async () => {
   try {
-    console.log('Requesting location permission...');
+    // console.log('Requesting location permission...');
 
     const permissionResult = await Location.requestForegroundPermissionsAsync();
     console.log('Permission status:', permissionResult.status);
