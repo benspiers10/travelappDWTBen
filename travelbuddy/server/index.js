@@ -34,6 +34,7 @@ app.post('/trips', (req, res) => {
     receivedAt: new Date().toISOString(),
   };
 
+  //storing trip and consolelog to make sure with total trips
   trips.push(trip);
   console.log(`Trip stored. Total trips in memory: ${trips.length}`);
 

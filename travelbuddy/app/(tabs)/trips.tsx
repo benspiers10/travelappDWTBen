@@ -21,7 +21,7 @@ export default function TripsScreen() {
    const { theme } = useAppTheme();
    const colors = Colors[theme];
 
-
+// Read, Update, Delete from trips context
   const { trips, deleteTrip, updateTrip } = useTrips();
 
   // Store whether the edit modal is open.
@@ -101,6 +101,8 @@ export default function TripsScreen() {
             </Text>
           </View>
         ) : (
+
+          // Read / Show
           trips.map((trip, index) => (
             <View
               key={trip.id}

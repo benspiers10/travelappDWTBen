@@ -45,6 +45,7 @@ export default function TrackScreen() {
   try {
     // console.log('Requesting location permission...');
 
+    //waiting for geolocation permission
     const permissionResult = await Location.requestForegroundPermissionsAsync();
     console.log('Permission status:', permissionResult.status);
 
@@ -58,8 +59,9 @@ export default function TrackScreen() {
 
     console.log('Getting location...');
 
+    //grabbing location with geolocation 
     const location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced, // faster + more reliable
+      accuracy: Location.Accuracy.Balanced, // faster for presentation but for inpdepth do highest
     });
 
     console.log('Location received:', location.coords);
@@ -93,6 +95,8 @@ export default function TrackScreen() {
 
   // Start a journey by taking a photo and recording location/time.
   const handleStartTravel = async () => {
+
+    //awaiting camera permission
     const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
 
     if (!cameraPermission.granted) {
@@ -103,6 +107,7 @@ export default function TrackScreen() {
       return;
     }
 
+    //launching camera after permission is granted
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
@@ -184,6 +189,7 @@ export default function TrackScreen() {
       location.coords.longitude
     );
 
+    //create 
     // Build the completed trip object.
     const completedTrip: Trip = {
       id: Date.now().toString(),
@@ -203,8 +209,10 @@ export default function TrackScreen() {
     // Save locally first.
     addTrip(completedTrip);
 
+    //create in server
     // Then try to send to the server.
     try {
+      //Sending to axios
       await sendTripToServer(completedTrip);
       Alert.alert('Trip saved', 'Trip saved locally and sent to server.');
     } catch (error) {

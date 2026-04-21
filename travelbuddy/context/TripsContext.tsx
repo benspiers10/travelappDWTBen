@@ -15,6 +15,7 @@ type TripsContextType = {
   updateTrip: (tripId: string, updatedData: Partial<Trip>) => void;
 };
 
+//Allow trips for global usage
 const TripsContext = createContext<TripsContextType | undefined>(undefined);
 
 type TripsProviderProps = {
@@ -32,6 +33,8 @@ export function TripsProvider({ children }: TripsProviderProps) {
   useEffect(() => {
     const loadTrips = async () => {
       try {
+
+        //Aysnc Storage with it working offline
         const storedTrips = await AsyncStorage.getItem('trips');
         if (storedTrips) {
           setTrips(JSON.parse(storedTrips));
@@ -52,6 +55,7 @@ export function TripsProvider({ children }: TripsProviderProps) {
 
     const saveTrips = async () => {
       try {
+        //saving trips
         await AsyncStorage.setItem('trips', JSON.stringify(trips));
       } catch (error) {
         console.error('Failed to save trips:', error);
@@ -81,6 +85,7 @@ export function TripsProvider({ children }: TripsProviderProps) {
   };
 
   return (
+    //Context Api to manage trip data globally
     <TripsContext.Provider value={{ trips, addTrip, deleteTrip, updateTrip }}>
       {children}
     </TripsContext.Provider>

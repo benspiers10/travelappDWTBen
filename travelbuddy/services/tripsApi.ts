@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const BASE_URL = 'http://172.20.10.4:4000';
 
+//for creating within server (Axios)
 export async function sendTripToServer(trip: Trip) {
   const response = await axios.post(`${BASE_URL}/trips`, trip);
   return response.data;
